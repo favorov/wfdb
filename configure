@@ -130,6 +130,7 @@ case x$HOST in
            KERNEL=$HOST
            ;;
 esac
+echo $MACHINE $KERNEL
 ARCH=$MACHINE-$KERNEL
 case `echo $KERNEL | tr A-Z a-z` in
   linux*)    case $MACHINE in
@@ -154,6 +155,11 @@ case `echo $KERNEL | tr A-Z a-z` in
   darwin*)   OS=Darwin ;;
   *)         OS=generic ;;
 esac
+if [ -n "$MSYSTEM" ] || [ -n "$MSYS" ] || [ -n "$MINGW" ]; then
+    OS=Linux-64
+    echo "Detected MSYS2 environment. Setting OS to Linux."
+fi
+
 echo "Configuring the WFDB software package for $OS."
 
 SRCDIR="`pwd`"
